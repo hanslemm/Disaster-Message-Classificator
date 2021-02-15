@@ -66,14 +66,17 @@ def build_model():
 def evaluate_model(model, X_test, Y_test, category_names):
     
     y_pred = model.predict(X_test)
-    print(classification_report(Y_test, y_pred, target_names=category_names))
-    # print raw accuracy score 
-    print(f'Accuracy Score: {np.mean(Y_test == y_pred)}')
+    i = 0
+    for col in Y_test:
+        print(f'Feature {i+1}: {col}')
+        print(classification_report(Y_test[col], y_pred[:, i]))
+        i = i + 1
+    accuracy = (y_pred == Y_test.values).mean()
+    print(f'The model accuracy is {accuracy}')
 
 
 def save_model(model, model_filepath):
     pickle.dump(model, open(model_filepath, 'wb'))
-
 
 def main():
     if len(sys.argv) == 3:
