@@ -66,7 +66,7 @@ def build_model():
 def evaluate_model(model, X_test, Y_test, category_names):
     
     y_pred = model.predict(X_test)
-    print(classification_report(y_pred, Y_test, target_names=category_names))
+    print(classification_report(Y_test, y_pred, target_names=category_names))
     # print raw accuracy score 
     print(f'Accuracy Score: {np.mean(Y_test == y_pred)}')
 
