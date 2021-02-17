@@ -14,7 +14,7 @@
 Necessary libraries:
 
 - pandas
-- re
+- numpy
 - sys
 - json
 - sklearn
@@ -64,23 +64,22 @@ The web app also contains some visualizations that describe the data.
 The files structure is arranged as below:
 
 	- README.md: read me file
-	- ETL Pipeline Preparation.ipynb: contains ETL pipeline preparation code
-	- ML Pipeline Preparation.ipynb: contains ML pipeline preparation code
-	- workspace
-		- \app
-			- run.py: flask file to run the app
+	- \app
+		- run.py: flask file to run the app
 		- \templates
 			- master.html: main page of the web application 
 			- go.html: result web page
-		- \data
-			- disaster_categories.csv: categories dataset
-			- disaster_messages.csv: messages dataset
-			- DisasterResponse.db: disaster response database
-			- process_data.py: ETL process
-		- \models
-			- classifier.pkl: pickle file with the classifier model
-            - train_classifier.py: classification code
-            
+	- \data
+		- disaster_categories.csv: categories dataset
+		- disaster_messages.csv: messages dataset
+		- DisasterResponse.db: disaster response database
+		- process_data.py: ETL process
+		- test.py: file to test if process_data.py functions are working as expected
+	- \models
+		- classifier.pkl: pickle file with the classifier model
+		- train_classifier.py: classification code
+		- test.py: file to test if train_classifier.py is working as expected
+    - .gitattributes: custom git configuration file to allow upload of large files to GitHub via GitHubLFS (https://git-lfs.github.com/)
 
 ## Instructions <a name="instructions"></a>
 
@@ -95,5 +94,4 @@ To execute the app follow the instructions:
 2. Run the following command in the app's directory to run your web app.
     `python run.py`
 
-3. Go to http://0.0.0.0:3001/
-
+3. Go to http://0.0.0.0:3001/ (if this URL does not work, try http://127.0.0.1:3001/)

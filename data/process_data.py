@@ -61,7 +61,7 @@ def clean_data(df):
 
     # ensure that every predictable variable has binary values  
     for col in predictable_columns:
-        df.loc[df[col]>1]=1 
+        df.drop(df.loc[df[col]>1].index) 
 
     return df
 

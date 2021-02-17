@@ -5,6 +5,7 @@ import numpy as np
 
 from nltk.stem import WordNetLemmatizer
 from nltk.tokenize import word_tokenize
+from nltk.corpus import stopwords
 
 from flask import Flask
 from flask import render_template, request, jsonify
@@ -14,7 +15,7 @@ from sqlalchemy import create_engine
 
 app = Flask(__name__)
 
-#Tokenize function -> needed for unpickling the model
+#Tokenize function needed to unpickle the classification model
 def tokenize(text):
     '''
     Tokenize corpus.
@@ -43,7 +44,7 @@ df = pd.read_sql_table('Table', engine)
 model = joblib.load("../models/classifier.pkl")
 
 
-# index webpage displays cool visuals and receives user input text for model
+# index webpage
 @app.route('/')
 @app.route('/index')
 def index():
@@ -55,13 +56,14 @@ def index():
     # Show distribution of different category
     category = list(df.columns[4:])
     category_counts = []
-    for column_name in category:
-        category_counts.append(np.sum(df[column_name]))
+    for column in category:
+        category_counts.append(np.sum(df[column]))
+    category_counts.sort(reverse=True)
 
-    # extract data exclude related
+    # extract data
     categories = df.iloc[:, 4:]
     categories_mean = categories.mean().sort_values(ascending=False)[1:11]
-    categories_names = list(categories_mean.index)
+    categories_names = categories.columns
 
     # create visuals
     graphs = [
@@ -74,7 +76,7 @@ def index():
             ],
 
             'layout': {
-                'title': 'Distribution of Message Genres',
+                'title': 'Message Genres Distribution',
                 'yaxis': {
                     'title': "Count"
                 },
@@ -92,7 +94,7 @@ def index():
             ],
 
             'layout': {
-                'title': 'Distribution of Message Categories',
+                'title': 'Message Categories Distribution',
                 'yaxis': {
                     'title': "Count"
                 },
@@ -121,7 +123,7 @@ def index():
         }
     ]
     # encode plotly graphs in JSON
-    ids = ["graph-{}".format(i) for i, _ in enumerate(graphs)]
+    ids = [f'graph-{i}' for i, _ in enumerate(graphs)]
     graphJSON = json.dumps(graphs, cls=plotly.utils.PlotlyJSONEncoder)
 
     # render web page with plotly graphs

@@ -13,7 +13,6 @@ from nltk.stem import WordNetLemmatizer
 from nltk.tokenize import word_tokenize
 import sys
 import pickle
-import re
 import numpy as np
 import pandas as pd
 import nltk
@@ -36,7 +35,7 @@ def timer(func):
 nltk.download(['punkt', 'wordnet', 'stopwords'])
 
 @timer
-def load_data(database_filepath):
+def load_database(database_filepath):
     '''
     Load database.
 
@@ -162,7 +161,7 @@ def main():
         database_filepath, model_filepath = sys.argv[1:]
 
         print(f'Loading data...\n DATABASE: {database_filepath}')
-        X, Y, category_names = load_data(database_filepath)
+        X, Y, category_names = load_database(database_filepath)
 
         print(f'Categories: {category_names}')
         X_train, X_test, Y_train, Y_test = train_test_split(
